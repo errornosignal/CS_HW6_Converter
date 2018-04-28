@@ -47,10 +47,10 @@ namespace CS_HW6_Converter
             return toValue.ToString("#.####");
         }
 
-        public int Compare(Conversion conv1, Conversion conv2)
+        public int Compare(Conversion ConvObj1, Conversion ConvObj2)
         {
-            string str1 = conv1.FromUnit + "," + conv1.ToUnit;
-            string str2 = conv2.FromUnit + "," + conv2.ToUnit;
+            var str1 = ConvObj1.ToShortString();
+            var str2 = ConvObj2.ToShortString();
             return str1.CompareTo(str2);
         }
 
@@ -61,27 +61,79 @@ namespace CS_HW6_Converter
 
         public override string ToString()
         {
-            return base.ToString();
+            return FromUnit + " " + ToUnit + " " + ConversionRatio;
+        }
+
+        public string ToShortString()
+        {
+            return FromUnit + " " + ToUnit;
         }
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return Equals(obj as Conversion);
         }
 
+        public bool Equals(Conversion conversion)
+        {
+            if (conversion is null)
+            {
+                return false;
+            }
+            else { /*doNothing*/ }
+
+            if (ReferenceEquals(this, conversion))
+            {
+                return true;
+            }
+            else { /*doNothing*/ }
+
+            return string.Equals(FromUnit, conversion.FromUnit)
+                   && string.Equals(ToUnit, conversion.ToUnit)
+                   && string.Equals(ConversionRatio, conversion.ConversionRatio);
+        }
+        
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            //acknowledge overflow will occur 
+            unchecked
+            {
+                // Choose large primes to avoid hashing collisions
+                const int HashBase = (int)2166136261;
+                const int HashMultiplier = 16777619;
+
+                var hash = HashBase;
+                hash = (hash * HashMultiplier) + (FromUnit?.GetHashCode() ?? 0);
+                hash = (hash * HashMultiplier) + (ToUnit?.GetHashCode() ?? 0);
+                hash = (hash * HashMultiplier) + 0;
+                return hash;
+            }
         }
 
-        string IConvertible<Conversion>.ConvertTo()
+        public static bool operator == (Conversion conversion1, Conversion conversion2)
         {
-            return ConvertTo();
+            if (ReferenceEquals(conversion1, conversion2))
+            {
+                return true;
+            }
+            else { /*doNothing*/ }
+
+            return conversion1?.Equals(conversion2) == true;
+        }
+
+        public static bool operator != (Conversion conversion1, Conversion conversion2)
+        {
+            return !(conversion1 == conversion2);
         }
 
         string IConvertible<Conversion>.ConvertFrom()
         {
             return ConvertFrom();
+        }
+
+        string IConvertible<Conversion>.ConvertTo()
+        {
+            return ConvertTo();
         }
 
         int IComparable<Conversion>.CompareTo(Conversion other)

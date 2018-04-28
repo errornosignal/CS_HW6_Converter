@@ -11,86 +11,83 @@ namespace CS_HW6_Converter
     internal class Conversions : Conversion
     {
         public static List<Conversion> ConvList = new List<Conversion>();
+
         public List<Conversion> GetConversions()
         {
-            //var ConvList = new List<Conversion>();
+            return ConvList;
+        }
 
-            try
+        public void AddConversion(string FromUnit, string ToUnit, double ConversionRatio)
+        {
+            if (ConversionRatio != 0)
             {
-                // Get the current directory.
-                var PathToFile = Directory.GetCurrentDirectory();
-                const string TargetFile = @"\conversions.txt";
-                var FullPath = PathToFile + TargetFile;
-                Console.WriteLine(FullPath);
 
-                var LineInFile = File.ReadAllLines(FullPath);
+                var MatchFound = false;
 
-                foreach (var line in LineInFile)
+                var TestString = FromUnit + " " + ToUnit;
+                foreach (var ConversionObject in ConvList)
                 {
-                    var tokens = line.Split(' ');
-                    ConvList.Add(new Conversion(tokens[0], tokens[1], Convert.ToDouble(tokens[2])));
+                    if (string.Equals(ConversionObject.ToShortString(), TestString,
+                        StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        MatchFound = true;
+                        MessageBox.Show("Entry already in list. Nothing added.");
+                        break;
+                    }
+                    else
+                    {
+                        /*doNothing*/
+                    }
+                }
+
+                if (MatchFound == false)
+                {
+                    var conversion = new Conversion(FromUnit, ToUnit, ConversionRatio);
+                    ConvList.Add(conversion);
+                    MessageBox.Show(conversion + " was added.");
+                }
+                else
+                {
+                    /*doNothing*/
                 }
             }
-            catch
+            else
             {
-                MessageBox.Show("Could not process data.");
+                MessageBox.Show("Conversion Rario cannot be 0.");
+            }
+        }
+
+        public void RemoveConversion(string FromUnit, string ToUnit)
+        {
+            var MatchFound = false;
+
+            var TestString = FromUnit + " " + ToUnit;
+            foreach (var ConversionObject in ConvList)
+            {
+                if (string.Equals(ConversionObject.ToShortString(), TestString, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    MatchFound = true;
+                    var IndexToRemove = ConvList.IndexOf(ConversionObject);
+                    ConvList.RemoveAt(IndexToRemove);
+                    MessageBox.Show(ConversionObject + " was removed.");
+                    break;
+                }
+                else { /*doNothing*/ }
             }
 
-            foreach (var conversion in ConvList)
+            if (MatchFound == false)
             {
-                Console.WriteLine(conversion.FromUnit+ conversion.ToUnit + conversion.ConversionRatio);
+                MessageBox.Show("No match found.");
             }
+            else { /*doNothing*/ }
+
+        }
+
+        public List<Conversion> RefreshConversions()
+        {
+            var ConversionsList = GetConversions();
+            ConvList = ConversionsList.OrderBy(o => o.FromUnit).ThenBy((n => n.ToUnit)).ToList();
             return ConvList;
         }
     }
-}
-
-        //public static void saveConversions(List<Conversion> conversions)
-        //{
-
-        //    try
-        //    {
-
-        //        PrintWriter out = new PrintWriter("conversion_types.txt");
-
-        //        for (Conversion item: conversions)
-        //        {
-
-        //            out.println(item.fromUnit + " " + item.toUnit + " " + item.conversionRatio);
-
-        //        }
-
-        //        out.close();
-
-        //    }
-
-        //    catch (FileNotFoundException e)
-        //    {
-
-        //        System.out.println("Unable to create file");
-
-        //    }
-
-        //}
-
-//    }
-
-
-
-
-//    public string FromUnit { get; set; }
-//        public string ToUnit { get; set; }
-//        public double ConversionRatio { get; set; }
-//        public IEnumerable<Conversions> conversions = from line in File.ReadLines(@"conversions.csv")
-
-//        let arr = line.Split(',')
-//        select new Conversions
-//        {
-//            FromUnit = arr[0].Trim(),
-//            ToUnit = arr[1].Trim(),
-//            ConversionRatio = Convert.ToDouble(arr[2].Trim())
-//        };
-
-
-//    }
-//}
+ }

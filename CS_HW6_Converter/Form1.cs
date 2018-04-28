@@ -13,48 +13,36 @@ namespace CS_HW6_Converter
 {
     public partial class Form1 : Form
     {
+        private readonly Conversions conversions = new Conversions();
+
         public Form1()
         {
             InitializeComponent();
         }
-
-        private void Form1_Load_1(object sender, EventArgs e)
+        
+        public void Form1_Load_1(object sender, EventArgs e)
         {
+            //add default conversions
+            conversions.AddConversion("Miles", "Kilometers", 1.6093);
+            conversions.AddConversion("Kilometers", "Miles", 0.6214);
+            conversions.AddConversion("Inches", "Centimeters", 2.54);
+            conversions.AddConversion("Centimeters", "Inches", 0.3937);
+
             this.ConvertToComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            var list = new List<IConvertible>();
-            
-            var conversions = new Conversions();
-
-            var ConversionArray = conversions.GetConversions().ToArray();
-            
-            Array.Sort(ConversionArray, conversions.Compare);
-
-            foreach (var Element in ConversionArray)
-            {
-                var ToFromString = Element.ConvertTo() + " " + Element.ConvertFrom();
-                this.ConvertToComboBox.Items.Add(ToFromString);
-            }
+            this.ConvertToComboBox.DataSource = Conversions.ConvList;
         }
-
-        private void EditConversionsButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void ConvertButton_Click(object sender, EventArgs e)
         {
             if (ConvertToComboBox.Text != string.Empty)
             {
-                var Conversion = new Conversion();
                 var ConversionText = ConvertToComboBox.SelectedItem.ToString();
                 var IsValid = double.TryParse(ConvertFromTextBox.Text, out var TryParseResult);
                 if (IsValid)
                 {
                     var LocalConversionRatio = 0.0;
-                    //var text = ConvertToComboBox.SelectedItem.ToString();
                     var newtext = ConversionText.Split(' ');
-                    Console.WriteLine(newtext[0] + " " + newtext[1]);
+                    //Console.WriteLine(newtext[0] + " " + newtext[1]);
 
                     if (ConversionText != string.Empty)
                     {
@@ -65,13 +53,22 @@ namespace CS_HW6_Converter
                                 LocalConversionRatio = ConversionObject.GetType();
                             }
                         }
-                        ConvertToTextBox.Text = Conversion.PerformConversion(TryParseResult, LocalConversionRatio);
+
+                        if (LocalConversionRatio == 0.0)
+                        {
+                            MessageBox.Show("Oops! Looks like the selected conversion may have been removed.");
+                        }
+                        else
+                        {
+                            this.ConvertToTextBox.Text = conversions.PerformConversion(TryParseResult, LocalConversionRatio);
+                        }
                     }
                 }
                 else
                 {
                     MessageBox.Show("Invalid Entry! Only double values permitted.");
-                    ConvertFromTextBox.Clear();
+                    this.ConvertFromTextBox.Clear();
+                    this.ConvertFromTextBox.Focus();
                 }
             }
             else
@@ -79,6 +76,18 @@ namespace CS_HW6_Converter
                 MessageBox.Show("No conversion type selected.");
             }
         }
+
+        private void EditConversionsButton_Click(object sender, EventArgs e)
+        {
+            var Form2 = new Form2();
+            Form2.FormClosing += this.Form2_FormClosing;
+            Form2.Show();
+        }
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.ConvertToComboBox.DataSource = null;
+            this.ConvertToComboBox.DataSource = Conversions.ConvList;
+        }
     }
 }
-

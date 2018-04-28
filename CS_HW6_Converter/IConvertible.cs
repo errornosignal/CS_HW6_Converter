@@ -11,7 +11,7 @@ namespace CS_HW6_Converter
     /// </summary>
     internal interface IConvertible<T>
     {
-        string ConvertTo();
         string ConvertFrom();
+        string ConvertTo();
     }
 }
