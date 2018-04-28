@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CS_HW6_Converter
@@ -19,7 +11,12 @@ namespace CS_HW6_Converter
         {
             InitializeComponent();
         }
-        
+
+        /// <summary>
+        /// Sets initial form state.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         public void Form1_Load_1(object sender, EventArgs e)
         {
             //add default conversions
@@ -31,7 +28,12 @@ namespace CS_HW6_Converter
             this.ConvertToComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             this.ConvertToComboBox.DataSource = Conversions.ConvList;
         }
-        
+
+        /// <summary>
+        /// Event handler for ConvertButton_Click.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         private void ConvertButton_Click(object sender, EventArgs e)
         {
             if (ConvertToComboBox.Text != string.Empty)
@@ -63,6 +65,7 @@ namespace CS_HW6_Converter
                             this.ConvertToTextBox.Text = conversions.PerformConversion(TryParseResult, LocalConversionRatio);
                         }
                     }
+                    else { /*doNothing*/ }
                 }
                 else
                 {
@@ -77,15 +80,27 @@ namespace CS_HW6_Converter
             }
         }
 
+        /// <summary>
+        /// Event handler for EditConversionsButton_Click.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         private void EditConversionsButton_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
             var Form2 = new Form2();
             Form2.FormClosing += this.Form2_FormClosing;
             Form2.Show();
         }
 
+        /// <summary>
+        /// Event handler for Form2_FormClosing.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
+            this.Enabled = true;
             this.ConvertToComboBox.DataSource = null;
             this.ConvertToComboBox.DataSource = Conversions.ConvList;
         }

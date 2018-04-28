@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CS_HW6_Converter
@@ -20,6 +12,11 @@ namespace CS_HW6_Converter
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Event handler for ClearButton_Click.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         private void ClearButton_Click(object sender, EventArgs e)
         {
             this.ConvertFromUnitTextBox.Clear();
@@ -28,6 +25,11 @@ namespace CS_HW6_Converter
             this.ConvertFromUnitTextBox.Focus();
         }
 
+        /// <summary>
+        /// Event handler for AddButton_Click.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         private void AddButton_Click(object sender, EventArgs e)
         {
             var ConvertFromUnit = ConvertFromUnitTextBox.Text;
@@ -43,7 +45,7 @@ namespace CS_HW6_Converter
                     var NewConversionRatio = TryParseResult;
 
                     conversions.AddConversion(ConvertFromUnit, ConvertToUnit, NewConversionRatio);
-                    conversions.RefreshConversions();
+                    conversions.ReSortConversions();
                     this.Close();
                 }
                 else
@@ -60,13 +62,18 @@ namespace CS_HW6_Converter
             }
         }
 
+        /// <summary>
+        /// Event handler for RemoveButton_Click.
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             var ConvertFromUnit = ConvertFromUnitTextBox.Text;
             var ConvertToUnit = ConvertToUnitTextBox.Text;
 
             conversions.RemoveConversion(ConvertFromUnit, ConvertToUnit);
-            conversions.RefreshConversions();
+            conversions.ReSortConversions();
             this.Close();
         }
     }

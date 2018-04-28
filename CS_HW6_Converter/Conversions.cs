@@ -1,29 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CS_HW6_Converter
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Conversions class.
+    /// </summary>
     internal class Conversions : Conversion
     {
         public static List<Conversion> ConvList = new List<Conversion>();
 
-        public List<Conversion> GetConversions()
+        /// <summary>
+        /// Returns list of Conversion objects.
+        /// </summary>
+        /// <returns>Returns ConvList.</returns>
+        private static IEnumerable<Conversion> GetConversions()
         {
             return ConvList;
         }
 
+        /// <summary>
+        /// Adds a conversion, created by the user, to the list of Conversion objects.
+        /// </summary>
+        /// <param name="FromUnit">string</param>
+        /// <param name="ToUnit">string</param>
+        /// <param name="ConversionRatio">double</param>
         public void AddConversion(string FromUnit, string ToUnit, double ConversionRatio)
         {
             if (ConversionRatio != 0)
             {
-
                 var MatchFound = false;
-
                 var TestString = FromUnit + " " + ToUnit;
                 foreach (var ConversionObject in ConvList)
                 {
@@ -34,10 +43,7 @@ namespace CS_HW6_Converter
                         MessageBox.Show("Entry already in list. Nothing added.");
                         break;
                     }
-                    else
-                    {
-                        /*doNothing*/
-                    }
+                    else { /*doNothing*/ }
                 }
 
                 if (MatchFound == false)
@@ -46,10 +52,7 @@ namespace CS_HW6_Converter
                     ConvList.Add(conversion);
                     MessageBox.Show(conversion + " was added.");
                 }
-                else
-                {
-                    /*doNothing*/
-                }
+                else { /*doNothing*/ }
             }
             else
             {
@@ -57,10 +60,14 @@ namespace CS_HW6_Converter
             }
         }
 
+        /// <summary>
+        /// Adds a conversion, specified by the user, from the list of Conversion objects.
+        /// </summary>
+        /// <param name="FromUnit">string</param>
+        /// <param name="ToUnit">string</param>
         public void RemoveConversion(string FromUnit, string ToUnit)
         {
             var MatchFound = false;
-
             var TestString = FromUnit + " " + ToUnit;
             foreach (var ConversionObject in ConvList)
             {
@@ -83,7 +90,11 @@ namespace CS_HW6_Converter
 
         }
 
-        public List<Conversion> RefreshConversions()
+        /// <summary>
+        /// Sorts the Conversion object list collection.
+        /// </summary>
+        /// <returns></returns>
+        public List<Conversion> ReSortConversions()
         {
             var ConversionsList = GetConversions();
             ConvList = ConversionsList.OrderBy(o => o.FromUnit).ThenBy((n => n.ToUnit)).ToList();
