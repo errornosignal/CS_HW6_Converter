@@ -10,24 +10,25 @@ namespace CS_HW6_Converter
 {
     internal class Conversions : Conversion
     {
-        public List<Conversion> getConversions()
+        public static List<Conversion> ConvList = new List<Conversion>();
+        public List<Conversion> GetConversions()
         {
-            var temp = new List<Conversion>();
+            //var ConvList = new List<Conversion>();
 
             try
             {
                 // Get the current directory.
-                var path = Directory.GetCurrentDirectory();
-                const string target = @"\conversions.txt";
-                var fullPath = path + target;
-                Console.WriteLine(fullPath);
+                var PathToFile = Directory.GetCurrentDirectory();
+                const string TargetFile = @"\conversions.txt";
+                var FullPath = PathToFile + TargetFile;
+                Console.WriteLine(FullPath);
 
-                string[] lineOfContents = File.ReadAllLines(fullPath);
+                var LineInFile = File.ReadAllLines(FullPath);
 
-                foreach (var line in lineOfContents)
+                foreach (var line in LineInFile)
                 {
-                    var tokens = line.Split(',');
-                    temp.Add(new Conversion(tokens[0], tokens[1], Convert.ToDouble(tokens[2])));
+                    var tokens = line.Split(' ');
+                    ConvList.Add(new Conversion(tokens[0], tokens[1], Convert.ToDouble(tokens[2])));
                 }
             }
             catch
@@ -35,9 +36,12 @@ namespace CS_HW6_Converter
                 MessageBox.Show("Could not process data.");
             }
 
-            return temp;
+            foreach (var conversion in ConvList)
+            {
+                Console.WriteLine(conversion.FromUnit+ conversion.ToUnit + conversion.ConversionRatio);
+            }
+            return ConvList;
         }
-
     }
 }
 

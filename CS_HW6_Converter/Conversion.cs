@@ -6,25 +6,16 @@ using System.Threading.Tasks;
 
 namespace CS_HW6_Converter
 {
-    internal class Conversion : IConvertible<Conversion>
+    internal class Conversion : IConvertible<Conversion>, IComparable<Conversion>
     {
-        string FromUnit = String.Empty;
-        string ToUnit = String.Empty;
-        double ConversionRatio = 0.0;
-
-        public double FromValue
-        {
-            get => this.FromValue;
-            set => this.FromValue = value > 0 ? value : 1;
-        }
-
-        public double ToValue
-        {
-            get => this.ToValue;
-            set => this.ToValue = value > 0 ? value : 1;
-        }
+        public string FromUnit = string.Empty;
+        public string ToUnit = string.Empty;
+        public double ConversionRatio = 0.0;
 
         //Creates varibales to store conversion data
+        public Conversion()
+        {
+        }
 
         public Conversion(string FromUnit, string ToUnit, double ConversionRatio)
         {
@@ -33,136 +24,69 @@ namespace CS_HW6_Converter
             this.ConversionRatio = ConversionRatio;
         }
 
-        public Conversion()
+        public string ConvertFrom()
         {
-        }
-
-        //Displays type of conversion made
-
-        public new string GetType()
-        {
-            return FromUnit + " To " + ToUnit + ":" + ConversionRatio;
-        }
-
-        //Calculates conversion and stores as
-
-        public string ConversionCalc(double fromValue)
-        {
-
-            var ToValue = fromValue * ConversionRatio;
-
-            //DecimalFormat decFormat = new DecimalFormat("#.##");
-
-            //ToValue = Double.valueOf(decFormat.format(toValue));
-
-            return ToValue.ToString();
+            return FromUnit;
         }
 
         public string ConvertTo()
         {
-            //throw new NotImplementedException();
-            return FromUnit;
+            return ToUnit;
         }
 
-        public string ConvertFrom()
+        //Displays type of conversion made
+        public new double GetType()
         {
-            //throw new NotImplementedException();
-            return ToUnit;
+            return ConversionRatio;
+        }
+
+        //Calculates conversion and stores as
+        public string PerformConversion(double fromValue, double conversionRatio)
+        {
+            var toValue = fromValue * conversionRatio;
+            return toValue.ToString("#.####");
+        }
+
+        public int Compare(Conversion conv1, Conversion conv2)
+        {
+            string str1 = conv1.FromUnit + "," + conv1.ToUnit;
+            string str2 = conv2.FromUnit + "," + conv2.ToUnit;
+            return str1.CompareTo(str2);
         }
 
         public int CompareTo(Conversion other)
         {
-            throw new NotImplementedException();
+            return ToString().CompareTo(other.ToString());
         }
 
-        public TypeCode GetTypeCode()
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            return base.ToString();
         }
 
-        public bool ToBoolean(IFormatProvider provider)
+        public override bool Equals(object obj)
         {
-            throw new NotImplementedException();
+            return base.Equals(obj);
         }
 
-        public char ToChar(IFormatProvider provider)
+        public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
-        public sbyte ToSByte(IFormatProvider provider)
+        string IConvertible<Conversion>.ConvertTo()
         {
-            throw new NotImplementedException();
+            return ConvertTo();
         }
 
-        public byte ToByte(IFormatProvider provider)
+        string IConvertible<Conversion>.ConvertFrom()
         {
-            throw new NotImplementedException();
+            return ConvertFrom();
         }
 
-        public short ToInt16(IFormatProvider provider)
+        int IComparable<Conversion>.CompareTo(Conversion other)
         {
-            throw new NotImplementedException();
-        }
-
-        public ushort ToUInt16(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int ToInt32(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public uint ToUInt32(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public long ToInt64(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ulong ToUInt64(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public float ToSingle(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ToDouble(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public decimal ToDecimal(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DateTime ToDateTime(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string ToString(IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ToType(Type conversionType, IFormatProvider provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int CompareTo(object obj)
-        {
-            throw new NotImplementedException();
+            return CompareTo(other);
         }
     }
 }

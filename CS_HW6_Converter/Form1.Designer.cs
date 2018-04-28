@@ -34,12 +34,13 @@
             this.ConvertToComboBox = new System.Windows.Forms.ComboBox();
             this.ConvertToLabel = new System.Windows.Forms.Label();
             this.ConvertButton = new System.Windows.Forms.Button();
+            this.EditConversionsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ConvertFromLabel
             // 
             this.ConvertFromLabel.AutoSize = true;
-            this.ConvertFromLabel.Location = new System.Drawing.Point(25, 9);
+            this.ConvertFromLabel.Location = new System.Drawing.Point(64, 9);
             this.ConvertFromLabel.Name = "ConvertFromLabel";
             this.ConvertFromLabel.Size = new System.Drawing.Size(89, 13);
             this.ConvertFromLabel.TabIndex = 0;
@@ -47,30 +48,33 @@
             // 
             // ConvertFromTextBox
             // 
-            this.ConvertFromTextBox.Location = new System.Drawing.Point(10, 25);
+            this.ConvertFromTextBox.Location = new System.Drawing.Point(12, 25);
             this.ConvertFromTextBox.Name = "ConvertFromTextBox";
-            this.ConvertFromTextBox.Size = new System.Drawing.Size(219, 20);
+            this.ConvertFromTextBox.Size = new System.Drawing.Size(141, 20);
             this.ConvertFromTextBox.TabIndex = 1;
+            this.ConvertFromTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // ConvertToTextBox
             // 
+            this.ConvertToTextBox.Enabled = false;
             this.ConvertToTextBox.Location = new System.Drawing.Point(10, 111);
             this.ConvertToTextBox.Name = "ConvertToTextBox";
-            this.ConvertToTextBox.Size = new System.Drawing.Size(219, 20);
+            this.ConvertToTextBox.Size = new System.Drawing.Size(143, 20);
             this.ConvertToTextBox.TabIndex = 3;
+            this.ConvertToTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // ConvertToComboBox
             // 
             this.ConvertToComboBox.FormattingEnabled = true;
             this.ConvertToComboBox.Location = new System.Drawing.Point(12, 61);
             this.ConvertToComboBox.Name = "ConvertToComboBox";
-            this.ConvertToComboBox.Size = new System.Drawing.Size(217, 21);
+            this.ConvertToComboBox.Size = new System.Drawing.Size(141, 21);
             this.ConvertToComboBox.TabIndex = 4;
             // 
             // ConvertToLabel
             // 
             this.ConvertToLabel.AutoSize = true;
-            this.ConvertToLabel.Location = new System.Drawing.Point(25, 95);
+            this.ConvertToLabel.Location = new System.Drawing.Point(64, 95);
             this.ConvertToLabel.Name = "ConvertToLabel";
             this.ConvertToLabel.Size = new System.Drawing.Size(89, 13);
             this.ConvertToLabel.TabIndex = 5;
@@ -78,18 +82,30 @@
             // 
             // ConvertButton
             // 
-            this.ConvertButton.Location = new System.Drawing.Point(112, 159);
+            this.ConvertButton.Location = new System.Drawing.Point(84, 159);
             this.ConvertButton.Name = "ConvertButton";
-            this.ConvertButton.Size = new System.Drawing.Size(75, 23);
+            this.ConvertButton.Size = new System.Drawing.Size(69, 23);
             this.ConvertButton.TabIndex = 6;
             this.ConvertButton.Text = "Convert";
             this.ConvertButton.UseVisualStyleBackColor = true;
+            this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
+            // 
+            // EditConversionsButton
+            // 
+            this.EditConversionsButton.Location = new System.Drawing.Point(12, 159);
+            this.EditConversionsButton.Name = "EditConversionsButton";
+            this.EditConversionsButton.Size = new System.Drawing.Size(66, 23);
+            this.EditConversionsButton.TabIndex = 7;
+            this.EditConversionsButton.Text = "Edit";
+            this.EditConversionsButton.UseVisualStyleBackColor = true;
+            this.EditConversionsButton.Click += new System.EventHandler(this.EditConversionsButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 194);
+            this.ClientSize = new System.Drawing.Size(167, 194);
+            this.Controls.Add(this.EditConversionsButton);
             this.Controls.Add(this.ConvertButton);
             this.Controls.Add(this.ConvertToLabel);
             this.Controls.Add(this.ConvertToComboBox);
@@ -112,6 +128,7 @@
         private System.Windows.Forms.ComboBox ConvertToComboBox;
         private System.Windows.Forms.Label ConvertToLabel;
         private System.Windows.Forms.Button ConvertButton;
+        private System.Windows.Forms.Button EditConversionsButton;
     }
 }
 
